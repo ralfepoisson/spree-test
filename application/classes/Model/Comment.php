@@ -56,6 +56,16 @@ class Model_Comment extends Model
     	return str_replace("\n", "<br>", $this->comment);
     }
     
+    public static function shorten_comment($comment, $max=30) {
+    	// Truncate and Append Elipse
+    	if (strlen($comment) > 30) {
+    		$comment = substr($comment, 0, 30) . "...";
+    	}
+    	
+    	// Return Shortened Comment
+    	return $comment;
+    }
+    
     public function get_author() 
     {
     	// Return the author's name as a hyperlink to their email
@@ -110,20 +120,65 @@ class Model_Comment extends Model
 		$query->execute();
     }
     
+    public static function get_comments($parent_id=0) 
+    {
+    	// Get Comment ID's
+    	if ($parent_id == "%" && !is_numeric($parent_id)) {
+    		$results = DB::select('uid')->from('comments')->where('active', '=', 1)->execute();
+    	}
+    	else {
+			$results = DB::select('uid')->from('comments')->where('parent_id', '=', $parent_id)->and_where('active', '=', 1)->execute();
+		}
+		
+		// Create Array of Objects
+		$arr = array();
+		foreach ($results as $item) {
+			// Create new Object	
+			$comment = new Model_Comment($item['uid']);
+			
+			// Append to Array
+			$arr[] = $comment;
+		}
+		
+		// Return Comments
+		return $arr;
+    }
+    
 	public static function comment_list($parent_id=0)
 	{
 		// Get Comments
-		$results = DB::select('uid')->from('comments')->where('parent_id', '=', $parent_id)->execute();
+		$items = Model_Comment::get_comments($parent_id);
 		
 		// Generate HTML
 		$html = "";
-		foreach($results as $item)
+		foreach($items as $item)
 		{
-			// Create Comment Object
-			$comment = new Model_Comment($item['uid']);
-			
 		    // Append Comment to HTML
-		    $html .= $comment->display();
+		    $html .= $item->display();
+		}
+		
+		// Return HTML
+		return $html;
+	}
+	
+	public static function admin_listing($parent_id=0) 
+	{
+		// Get Comments
+		$items = Model_Comment::get_comments($parent_id);
+		
+		// Generate HTML
+		$html = "";
+		foreach ($items as $item) {
+			// Append Comment Row to HTML
+			$html .= "
+				<tr>
+					<td>{$item->uid}</td>
+					<td>{$item->author}</td>
+					<td><a href='mailto:{$item->email}'>{$item->email}</a></td>
+					<td>" . Model_Comment::shorten_comment($item->comment) . "</td>
+					<td><a class='btn btn-danger' href='./delete/{$item->uid}/'>Delete</a></td>
+				</tr>
+			";
 		}
 		
 		// Return HTML

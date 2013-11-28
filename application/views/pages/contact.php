@@ -21,9 +21,9 @@
 			<!-- Header -->
 			<div class="header">
 				<ul class="nav nav-pills pull-right">
-					<li class="active"><a href="./">Home</a></li>
-					<li><a href="index.php/admin/">Admin</a></li>
-					<li><a href="index.php/contact/">Contact</a></li>
+					<li><a href="<?php echo Kohana_URL::base();?>">Home</a></li>
+					<li><a href="<?php echo Kohana_URL::base();?>index.php/admin/">Admin</a></li>
+					<li class="active"><a href="#">Contact</a></li>
 				</ul>
 				<h3 class="text-muted">Spree Assignment: Ralfe Poisson</h3>
 			</div>
@@ -36,38 +36,28 @@
 				</p>
 			</div>
 			
-			<h3>Comments</h3>
+			<h3>Contact Me</h3>
 			
 			<div class="row marketing">
 				<div class="col-lg-4">
-					<h4>Instructions</h4>
-					<p>
-						<ol>
-							<li>Click on the "Add Comment" button.</li>
-							<li>A modal will appear asking you for your Name, Email Address and Comment.</li>
-							<li>Once you have entered in your comment, click on the "Post Comment" button.</li>
-							<li>If you have not filled in your name, or an incorrect email address, you will be asked to correct the data before posting the comment.</li>
-							<li>You will immediately see your comment added to the list of comments</li>
-						</ol>
-					</p>
-					<p>
-						You can also reply to any comment by simply clicking on the "Reply" button. This will result in nested comments
-						as such:<br>
-						<img src="./assets/images/in_app_instructions.png" style="width: 250px;">
-					</p>
-					<p>
-						Comments can be moderated in the <a href="./index.php/admin">Admin</a> section.
-					</p>
-				</div>
-				
-				<div class="col-lg-8">
-					<div style="float: right;">
-						<a class="btn btn-primary" onclick="comment_form(0);">Add Comment</a>
-					</div>
-					
-					<div id="comment_list">
-						<?php echo $comments;?>
-					</div>
+					<table class="table">
+						<tr>
+							<th>Name</th>
+							<td>Ralfe Poisson</td>
+						</tr>
+						<tr>
+							<th>Email</th>
+							<td><a href="mailto:ralfepoisson@gmail.com">ralfepoisson@gmail.com</a></td>
+						</tr>
+						<tr>
+							<th>Twitter</th>
+							<td><a href="http://twitter.com/ralfe" target="_blank">@ralfe</a></td>
+						</tr>
+						<tr>
+							<th>LinkedIn</th>
+							<td><a href="http://za.linkedin.com/in/ralfe" target="_blank">ralfe</a></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			

@@ -275,6 +275,7 @@ class Kohana_Core {
 
 		if ( ! is_writable(Kohana::$cache_dir))
 		{
+			var_dump(Kohana::$cache_dir);
 			throw new Kohana_Exception('Directory :dir must be writable',
 				array(':dir' => Debug::path(Kohana::$cache_dir)));
 		}
